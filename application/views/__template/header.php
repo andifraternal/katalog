@@ -68,7 +68,7 @@
             </ul>
           </li>
           
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
@@ -78,7 +78,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?php echo base_url() ?>index.php/transaksi" class="nav-link">
+                <a href="<?php //echo base_url() ?>index.php/transaksi" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Transaksi Penjualan</p>
                 </a>
@@ -95,13 +95,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?php echo base_url() ?>index.php/transaksi/laporanPenjualan" class="nav-link">
+                <a href="<?php //echo base_url() ?>index.php/transaksi/laporanPenjualan" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Laporan Penjualan</p>
                 </a>
               </li>
             </ul>
-          </li>
+          </li> -->
           
         </ul>
       </nav>

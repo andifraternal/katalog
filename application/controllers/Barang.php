@@ -23,15 +23,16 @@ class Barang extends CI_Controller{
             $row = array();
             $row[] = $no;
             $row[] = $field->nama_kategori;
+            $row[] = $field->kode_barang_sistem;
             $row[] = $field->nama_barang;
             $row[] = $field->deskripsi;
-            $row[] = $field->gambar;
+            $row[] = '<img src="'.base_url().'/assets/images/'.$field->gambar.'" style="height:50px;width:50px;"/>';
             $row[] = $field->ukuran;
             $row[] = $field->bahan;
             $row[] = $field->harga;
             $row[] = $field->created_at;
             $row[] = $field->updated_at;
-            $row[] = '<button type="button" name="updateBarang" id="'.$field->id_barang.'" class="btn btn-warning updateBarang">Edit Harga</button>
+            $row[] = '<button type="button" name="updateBarang" id="'.$field->id_barang.'" class="btn btn-warning updateBarang">Edit Data</button>
             <button type="button" name="deleteBarang" id="'.$field->id_barang.'" class="btn btn-danger deleteBarang">Delete Data</button>';
  
             $data[] = $row;
@@ -95,31 +96,83 @@ class Barang extends CI_Controller{
 
 
     function getbarang($barang){
-        $query = $this->barangModel->getBarang($barang)->row();
+        $barang = $this->barangModel->getBarang($barang)->row();
+        $kategori = $this->kategoriModel->get_all_data()->result();
 
-        echo json_encode($query);
+        $data = array(
+            'barang'    => $barang,
+            'kategori'  => $kategori
+        );
+
+        echo json_encode($data);
     }
 
 
     function updateBarang(){
-        $idbarang = $this->input->post('idbarang');
-        $harga = $this->input->post('harga');
-        $now = date('Y-m-d H:i:s');
-        $query      = $this->barangModel->updateData($idbarang, $harga, $now);
-        $queryLog   = $this->barangModel->insertBarangLog($idbarang, $harga);
-        if($query && $queryLog){
-            $data = array(
-                'kode'       => 200,
-                'keterangan' => 'success'
-            );
-        }else{
-            $data = array(
-                'kode'       => 400,
-                'keterangan' => 'failed'
-            );
-        }
+        $kategori   = $this->input->post('kategori_update'); 
+        $kodebarang = $this->input->post('kode_barang_update');  
+        $namabarang = $this->input->post('nama_barang_update'); 
+        $deskripsi  = $this->input->post('deskripsi_update');
+        $ukuran     = $this->input->post('ukuran_update');
+        $bahan      = $this->input->post('bahan_update');
+        $harga      = $this->input->post('harga_update');
+        $id         = $this->input->post('id_barang_update'); 
 
-        echo json_encode($data);
+        $gambar     = $this->input->post('gambar_update');
+
+        $gambar_lama= $this->input->post('gambar_lama');
+
+        if(isset($_FILES['gambar_update'])){
+            $config['upload_path']="./assets/images"; //path folder file upload
+            $config['allowed_types']='gif|jpg|png|jpeg'; //type file yang boleh di upload
+            $config['encrypt_name'] = TRUE; //enkripsi file name upload
+            
+            $this->load->library('upload',$config); //call library upload 
+            if($this->upload->do_upload('gambar_update')){ //upload file
+                $data = array('upload_data' => $this->upload->data()); //ambil file name yang diupload
+    
+                // $judul= $this->input->post('judul'); //get judul image
+                $image= $data['upload_data']['file_name']; //set file name ke variable image
+                
+                $result= $this->barangModel->updateData($id, $kategori, $kodebarang, $namabarang, $deskripsi, $image, $ukuran, $bahan, $harga); //kirim value ke model m_upload
+                // echo json_decode($result);
+                if($result){
+                    $data = array(
+                        'kode'       => 200,
+                        'keterangan' => 'success'
+                    );
+                    echo json_encode($data);
+                }else{
+                    $data = array(
+                        'kode'       => 400,
+                        'keterangan' => 'failed'
+                    );
+                    echo json_encode($data);
+                }
+            }else{
+                $data = array(
+                    'kode'       => 401,
+                    'keterangan' => 'failed'
+                );
+                echo json_encode($data);
+            }
+        }else{
+            $result= $this->barangModel->updateData($id, $kategori, $kodebarang, $namabarang, $deskripsi, $gambar_lama, $ukuran, $bahan, $harga);
+            if($result){
+                $data = array(
+                    'kode'       => 200,
+                    'keterangan' => 'success'
+                );
+                echo json_encode($data);
+            }else{
+                $data = array(
+                    'kode'       => 400,
+                    'keterangan' => 'failed'
+                );
+                echo json_encode($data);
+            }
+
+        }
     }
 
 

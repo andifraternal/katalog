@@ -4,7 +4,7 @@ class BarangModel extends CI_Model{
 
     var $tabelbarang = 'master_barang'; //nama tabel dari database
     var $tabelkategori = 'master_kategori'; //nama tabel dari database
-    var $column_order = array(null, 'master_kategori.nama_kategori','master_barang.nama_barang', null, 'master_barang.ukuran', 'master_barang.bahan', 'master_barang.harga'); //field yang ada di table user
+    var $column_order = array(null, 'master_kategori.nama_kategori','master_barang.kode_barang_sistem', 'master_barang.nama_barang', null, null, 'master_barang.ukuran', 'master_barang.bahan', 'master_barang.harga', 'master_barang.created_at', 'master_barang.updated_at'); //field yang ada di table user
     var $column_search = array('master_kategori.nama_kategori','master_barang.nama_barang', 'master_barang.ukuran', 'master_barang.bahan', 'master_barang.harga'); //field yang diizin untuk pencarian 
     var $order = array('master_kategori.nama_kategori' => 'asc'); // default order 
  
@@ -17,7 +17,7 @@ class BarangModel extends CI_Model{
     private function _get_datatables_query()
     {
          
-        $this->db->select('*');
+        $this->db->select('master_kategori.id_kategori, master_kategori.nama_kategori, master_kategori.aktif, master_barang.*');
         $this->db->from($this->tabelbarang);
         $this->db->join($this->tabelkategori, 'master_barang.id_kategori = master_kategori.id_kategori');
         // $this->db->where('master_barang.aktif' , 'Y');
@@ -97,16 +97,27 @@ class BarangModel extends CI_Model{
         return $query;
     }
 
-    function updateData($idbarang, $harga, $now){
+    function updateData($id, $kategori, $kodebarang, $namabarang, $deskripsi, $gambar, $ukuran, $bahan, $harga){
+        $now = date('Y-m-d H:i:s');
         $query = $this->db->query("
-            update master_barang set harga_update = '$harga', updated_at = '$now' where id_barang = '$idbarang'
+            update master_barang set 
+                id_kategori         = '$kategori', 
+                kode_barang_sistem  = '$kodebarang',
+                nama_barang         = '$namabarang',
+                deskripsi           = '$deskripsi',
+                gambar              = '$gambar',
+                ukuran              = '$ukuran',
+                bahan               = '$bahan',
+                harga               = '$harga',
+                updated_at          = '$now'
+            where id_barang = '$id'
         ");
         return $query;
     }
 
     function hapusBarang($idBarang){
         $query = $this->db->query("
-            update master_barang set status_aktif  = '0' where id_barang = '$idBarang'
+            delete from master_barang  where id_barang = '$idBarang'
         ");
         return $query;
     }

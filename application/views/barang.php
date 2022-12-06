@@ -42,6 +42,7 @@ echo $now;
                   <tr>
                     <th>No</th>
                     <th>Kategori</th>
+                    <th>Kode Barang</th>
                     <th>Nama Barang</th>
                     <th>Deskripsi</th>
                     <th>Gambar</th>
@@ -151,7 +152,7 @@ echo $now;
                     <div class="form-group row">
                       <label for="inputPassword3" class="col-sm-2 col-form-label">Harga</label>
                       <div class="col-sm-10">
-                        <input type="text" class="form-control" id="harga" name="harga" placeholder="Harga">
+                        <input type="number" class="form-control" id="harga" name="harga" placeholder="Harga">
                       </div>
                     </div>
                   </div>
@@ -186,20 +187,71 @@ echo $now;
             </div>
             <div class="modal-body">
 
-                <form class="form-horizontal">
+              <form class="form-horizontal" id="updateDataSubmit">
                   <div class="card-body">
+                    <div class="form-group row">
+                      <label for="inputEmail3" class="col-sm-2 col-form-label">Kategori</label>
+                      <div class="col-sm-10">
+                        <div id="kategori_id"></div>
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label for="inputPassword3" class="col-sm-2 col-form-label">Kode barang</label>
+                      <div class="col-sm-10">
+                        <input type="hidden" class="form-control" id="id_barang_update" name="id_barang_update" placeholder="" readonly>
+                        <input type="text" class="form-control" id="kode_barang_update" name="kode_barang_update" placeholder="Kode Barang di Sistem">
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label for="inputPassword3" class="col-sm-2 col-form-label">Nama Barang</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="nama_barang_update" name="nama_barang_update" placeholder="Nama Barang">
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label for="inputPassword3" class="col-sm-2 col-form-label">Deskripsi</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="deskripsi_update" name="deskripsi_update" placeholder="Deskripsi">
+                      </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                      <label for="inputPassword3" class="col-sm-2 col-form-label">Gambar</label>
+                      <div class="col-sm-10">
+                        <input type="file" class="form-control" id="gambar_update" name="gambar_update" placeholder="Gambar" accept="image/png, image/gif, image/jpeg, image/jpg">
+                        <input type="hidden" class="form-control" id="gambar_lama" name="gambar_lama" placeholder="" readonly>
+                        <div id="gambar_tampil" style="margin-top:5px"></div>
+                      </div>
+                    </div>
                     
                     <div class="form-group row">
-                      <label for="inputPassword3" class="col-sm-2 col-form-label">Harga Barang</label>
+                      <label for="inputPassword3" class="col-sm-2 col-form-label">Ukuran</label>
                       <div class="col-sm-10">
-                        <input type="hidden" class="form-control" id="id_barang_update" name="id_barang_update" placeholder="Harga Barang" readonly>
-                        <input type="text" class="form-control" id="harga_barang_update" name="harga_barang_update" placeholder="Harga Barang">
+                        <input type="text" class="form-control" id="ukuran_update" name="ukuran_update" placeholder="Ukuran">
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label for="inputPassword3" class="col-sm-2 col-form-label">Bahan</label>
+                      <div class="col-sm-10">
+                        <input type="text" class="form-control" id="bahan_update" name="bahan_update" placeholder="Bahan">
+                      </div>
+                    </div>
+
+                    <div class="form-group row">
+                      <label for="inputPassword3" class="col-sm-2 col-form-label">Harga</label>
+                      <div class="col-sm-10">
+                        <input type="number" class="form-control" id="harga_update" name="harga_update" placeholder="Harga">
                       </div>
                     </div>
                   </div>
                   <!-- /.card-body -->
                   <div class="modal-footer justify-content-between">
-                    <button type="button" id="updateSimpanBarang" class="btn btn-primary pull-right">Simpan Data</button>
+                    <button type="submit" id="updatebarang" class="btn btn-primary pull-right">Simpan Data</button>
                   </div>
                   <!-- /.card-footer -->
                 </form>
@@ -260,6 +312,50 @@ echo $now;
               "targets": [ 0 ], 
               "orderable": false, 
           },
+          { 
+              "targets": [ 1 ], 
+              "orderable": true, 
+          },
+          { 
+              "targets": [ 2 ], 
+              "orderable": true, 
+          },
+          { 
+              "targets": [ 3 ], 
+              "orderable": true, 
+          },
+          { 
+              "targets": [ 4 ], 
+              "orderable": false, 
+          },
+          { 
+              "targets": [ 5 ], 
+              "orderable": false, 
+          },
+          { 
+              "targets": [ 6 ], 
+              "orderable": true, 
+          },
+          { 
+              "targets": [ 7 ], 
+              "orderable": true, 
+          },
+          { 
+              "targets": [ 8 ], 
+              "orderable": true, 
+          },
+          { 
+              "targets": [ 9 ], 
+              "orderable": true, 
+          },
+          { 
+              "targets": [ 10 ], 
+              "orderable": true, 
+          },
+          { 
+              "targets": [ 11 ], 
+              "orderable": false, 
+          },
           ],
 
       });
@@ -271,43 +367,39 @@ echo $now;
       tampilData();
 
 
-      // $("#simpanBarang" ).click(function() {
-      //   // console.log('haha');
-      //   var kategori=$('#kategori').val();
-      //   var namabarang=$('#nama_barang').val();
-      //   var harga=$('#harga_barang').val();
-      //   $.ajax({
-      //       type : "POST",
-      //       url  : "<?php //echo base_url('index.php/barang/simpanBarang')?>",
-      //       dataType : "JSON",
-      //       data : {kategori:kategori, namabarang:namabarang, harga:harga},
-      //       success: function(data){
-      //           $('[name="kategori"]').val("");
-      //           $('[name="nama_barang"]').val("");
-      //           $('[name="harga_barang"]').val("");
-      //           $('#modal-xl').modal('hide');
-      //           tampilData();
-      //       }
-      //   });
-      //   return false;
-      // });
-
-
       $('#submit').submit(function(e){
-            e.preventDefault(); 
-                 $.ajax({
-                     url:'<?php echo base_url();?>index.php/barang/simpanBarang',
-                     type:"POST",
-                     data:new FormData(this),
-                     processData:false,
-                     contentType:false,
-                     cache:false,
-                     async:false,
-                      success: function(data){
-                          alert("Upload Image Berhasil.");
-                   }
-                 });
-            });
+        e.preventDefault(); 
+              $.ajax({
+                  url:'<?php echo base_url();?>index.php/barang/simpanBarang',
+                  type:"POST",
+                  data:new FormData(this),
+                  processData:false,
+                  contentType:false,
+                  cache:false,
+                  async:false,
+                  success: function(data){
+                      alert("Upload Image Berhasil.");
+                }
+              });
+        });
+
+
+        $('#updateDataSubmit').submit(function(e){
+        e.preventDefault(); 
+              $.ajax({
+                  url:'<?php echo base_url();?>index.php/barang/updateBarang',
+                  type:"POST",
+                  data:new FormData(this),
+                  processData:false,
+                  contentType:false,
+                  cache:false,
+                  async:false,
+                  success: function(data){
+                      alert("Upload Image Berhasil.");
+                }
+              });
+        });
+
 
  
     });
@@ -320,9 +412,33 @@ echo $now;
             url  : "<?php echo base_url()?>index.php/barang/getBarang/"+id,
             dataType : "JSON",
             success: function(data){
-                $('[name="id_barang_update"]').val(data.id_barang);
-                $('[name="harga_barang_update"]').val(data.harga_update);
+                var base_url = window.location.origin;
+
+                var combo = ''
+                combo += '<select class="form-control" name="kategori_update" id="kategori_update">'
+                for(i=0; i<data.kategori.length; i++){
+                  combo += '<option value="'+data.kategori[i].id_kategori+'" '+(data.kategori[i].id_kategori == data.barang.id_kategori ? 'selected' : '')+'>'+data.kategori[i].nama_kategori+'</option>'
+                }
+                combo += '</select>'
+                $('#kategori_id').html(combo);
+
+                var  gambar = ''
+                gambar += '<img src="'+base_url+'/katalog/assets/images/'+data.barang.gambar+'" style="height:150px;width:150px;"/>'
+                $('#gambar_tampil').html(gambar);
+
+                $('[name="id_barang_update"]').val(data.barang.id_barang);
+
+                $('[name="kode_barang_update"]').val(data.barang.kode_barang_sistem);
+                $('[name="nama_barang_update"]').val(data.barang.nama_barang);
+                $('[name="deskripsi_update"]').val(data.barang.deskripsi);
+
+                $('[name="gambar_lama"]').val(data.barang.gambar);
+
+                $('[name="ukuran_update"]').val(data.barang.ukuran);
+                $('[name="bahan_update"]').val(data.barang.bahan);
+                $('[name="harga_update"]').val(data.barang.harga);
                 $('#modal-update').modal('show');
+                
                 
             }
         });
