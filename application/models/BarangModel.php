@@ -129,4 +129,15 @@ class BarangModel extends CI_Model{
         ");
         return $query;
     }
+
+    function get_barang_all(){
+        $query = $this->db->query("
+            select a.*, b.* from master_barang a join master_kategori b 
+            on a.id_kategori = b.id_kategori
+            order by a.created_at asc
+        ");
+        return $query;
+    }
+
+
 }

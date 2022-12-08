@@ -197,4 +197,43 @@ class Barang extends CI_Controller{
         $query = $this->barangModel->get_barang($kategori)->result();
         echo json_encode($query);
     }
+
+    function tampilAllbarang(){
+        $data = $this->barangModel->get_barang_all()->result();
+
+        echo json_encode($data);
+    }
+
+    function tampilBarangTanpaHarga(){
+        $kategori = $_POST['kategori'];
+        $jumlahKategori = ($this->input->post('kategori')?1:0);
+        // $data = array();
+
+        if($jumlahKategori == 0){
+            $tampilData = $this->barangModel->get_barang_all()->result();
+        }else{
+            if(is_array($kategori) || is_object($kategori))
+            {
+                $kat = '';
+                $index = 0;
+                foreach($kategori as $datakategori){ 
+                    // if($index == $jumlahKategori -1){
+                    //     $kat .= "'".$datakategori."'";
+                    // }else{
+                        $kat .= "'".$datakategori."',";
+                    // }
+                    
+                }
+                $hasilKategori = substr($kat, 0, -1);
+
+            }
+            echo json_encode($hasilKategori);
+        }
+        
+        
+    }
+
+
+
+
 }
