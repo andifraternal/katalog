@@ -123,6 +123,80 @@
     <!-- Products End -->
 
 
+
+
+    <div class="modal fade" id="modal-detail">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Produk Detail</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+
+                <!-- Shop Detail Start -->
+    <div class="container-fluid py-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-5 pb-5">
+                <div  class="carousel slide" data-ride="carousel" id="detailImage">
+                    <!-- <div class="carousel-inner border">
+                        <div class="carousel-item active" id="detailImage"> -->
+                            <!-- <img class="w-100 h-100" src="img/product-1.jpg" alt="Image"> -->
+                        <!-- </div>
+                    </div> -->
+                    <!-- <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
+                        <i class="fa fa-2x fa-angle-left text-dark"></i>
+                    </a>
+                    <a class="carousel-control-next" href="#product-carousel" data-slide="next">
+                        <i class="fa fa-2x fa-angle-right text-dark"></i>
+                    </a> -->
+                </div>
+            </div>
+
+            <div class="col-lg-7 pb-5">
+                <h3 class="font-weight-semi-bold"><span id="detailNama"></span></h3>
+                <div class="d-flex mb-3">
+                </div>
+                <h3 class="font-weight-semi-bold mb-4"><span id="detailHarga"></span></h3>
+                <div class="d-flex mb-3">
+                    <p class="text-dark font-weight-medium mb-0 mr-3">Ukuran : <span id="detailUkuran"></span></p>
+                </div>
+                <div class="d-flex mb-3">
+                    <p class="text-dark font-weight-medium mb-0 mr-3">Bahan : <span id="detailBahan"></span></p>
+                </div>
+                
+               
+            </div>
+        </div>
+        <div class="row px-xl-5">
+            <div class="col">
+                <div class="nav nav-tabs justify-content-center border-secondary mb-4">
+                    <a class="nav-item nav-link active" data-toggle="tab" href="#tab-pane-1">Description</a>
+                </div>
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="tab-pane-1">
+                        <h4 class="mb-3">Product Description</h4>
+                        <p id="detailDeskripsi"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Shop Detail End -->
+
+
+            </div>
+            
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+
+
     
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -155,7 +229,7 @@
                         var tampilan = ''
                         for(i=0; i<data.length; i++){
                             
-                            tampilan += '<div class="col-lg-3 col-md-6 col-sm-12 pb-1" data-id="'+data[i].id_barang+'">'
+                            tampilan += '<div class="col-lg-3 col-md-6 col-sm-12 pb-1 detailBarang" data-id="'+data[i].id_barang+'">'
                             tampilan += '<div class="card product-item border-0 mb-4">'
                             tampilan += '<div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">'
                             tampilan += '<img class="img-fluid w-100" src="<?php echo base_url() ?>assets/images/'+data[i].gambar+'" alt="">'
@@ -179,9 +253,8 @@
                 });
             }
 
-            // load dat awal
-            var harga = $('#sortByHarga').val();
-            // var 
+            // load data awal
+            var harga = $('#sortByHarga').val(); 
             tampilData();
 
 
@@ -196,7 +269,7 @@
                             var tampilan = ''
                             for(i=0; i<data.length; i++){
                                 
-                                tampilan += '<div class="col-lg-3 col-md-6 col-sm-12 pb-1" data-id="'+data[i].id_barang+'">'
+                                tampilan += '<div class="col-lg-3 col-md-6 col-sm-12 pb-1 detailBarang" data-id="'+data[i].id_barang+'">'
                                 tampilan += '<div class="card product-item border-0 mb-4">'
                                 tampilan += '<div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">'
                                 tampilan += '<img class="img-fluid w-100" src="<?php echo base_url() ?>assets/images/'+data[i].gambar+'" alt="">'
@@ -233,7 +306,7 @@
                             var tampilan = ''
                             for(i=0; i<data.length; i++){
                                 
-                                tampilan += '<div class="col-lg-3 col-md-6 col-sm-12 pb-1" data-id="'+data[i].id_barang+'">'
+                                tampilan += '<div class="col-lg-3 col-md-6 col-sm-12 pb-1 detailBarang" data-id="'+data[i].id_barang+'">'
                                 tampilan += '<div class="card product-item border-0 mb-4">'
                                 tampilan += '<div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">'
                                 tampilan += '<img class="img-fluid w-100" src="<?php echo base_url() ?>assets/images/'+data[i].gambar+'" alt="">'
@@ -270,7 +343,7 @@
                             var tampilan = ''
                             for(i=0; i<data.length; i++){
                                 
-                                tampilan += '<div class="col-lg-3 col-md-6 col-sm-12 pb-1" data-id="'+data[i].id_barang+'">'
+                                tampilan += '<div class="col-lg-3 col-md-6 col-sm-12 pb-1 detailBarang" data-id="'+data[i].id_barang+'">'
                                 tampilan += '<div class="card product-item border-0 mb-4">'
                                 tampilan += '<div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">'
                                 tampilan += '<img class="img-fluid w-100" src="<?php echo base_url() ?>assets/images/'+data[i].gambar+'" alt="">'
@@ -297,11 +370,8 @@
 
 
             $('.hasilKategori').click(function(){
-                // tampilDataFilter()
                 var kategori = $(this).attr('id')
                 var harga = $('#sortByHarga').val();
-                // var kategori = $('#id_kategori').val();
-                // var harga = $(this).attr('id')
                 if(harga == 'tanpaSortHarga' && kategori == 'allKategori'){
                     tampilData()
                 }else if(harga == 'tanpaSortHarga' && kategori == ''){
@@ -335,57 +405,31 @@
                 }
             })
 
-
-            // function tampilDataFilter(){
-            //     var haha = $('input[name="urutan"]:checked').val();
-            //     var urutan = (haha==undefined?'':haha)
-            //     var kategori = $(".js-example-basic-multiple").select2("val");
-
-            //     // console.log(oke)
-                
-            //     if(urutan == ''){
-            //         var haha = $('input[name="urutan"]:checked').val();
-            //         $.ajax({
-            //             type : "POST",
-            //             url  : "<?php echo base_url('index.php/barang/tampilBarangTanpaHarga')?>",
-            //             dataType : "JSON",
-            //             data : {kategori:kategori},
-            //             success: function(data){
-            //                 console.log(data)
-            //                 // var base_url = window.location.origin;
-            //                 // var tampilan = ''
-            //                 // for(i=0; i<data.length; i++){
-            //                 //     tampilan += '<div class="col mb-5 detailData" data-id="'+data[i].id_barang+'">'
-            //                 //     tampilan += '<div class="card h-100">'
-            //                 //     tampilan += '<div style="height: 200px;  ">'
-            //                 //     tampilan += '<img class="card-img-top " src="'+base_url+'/katalog/assets/images/'+data[i].gambar+'" alt="..." />'
-            //                 //     tampilan += '</div>'
-            //                 //     tampilan += '<div class="card-body p-4">'
-            //                 //     tampilan += '<div class="text-center">'
-            //                 //     tampilan += '<h5 class="fw-bolder">'+data[i].nama_barang+'</h5>'
-            //                 //     tampilan += data[i].harga
-            //                 //     tampilan += '</div>'
-            //                 //     tampilan += '</div>'
-            //                 //     tampilan += '</div>'
-            //                 //     tampilan += '</div>'
-            //                 // }
-
-            //                 // $('#tampilData').html(tampilan);
-                            
-            //             }
-            //         });
-            //     }else{
-
-            //     }
-            // }
+    });
 
 
-            // $('#refreshButton').click(function(){
-            //     tampilDataFilter()
-            // })
 
-            // tampilDataFilter()
+    $(document).on('click', '.detailBarang', function(){
+            var id= $(this).attr('data-id')
+            $.ajax({
+                    type : "GET",
+                    url  : "<?php echo base_url()?>index.php/tampil/detailBarang/"+id,
+                    dataType : "JSON",
+                    success: function(data){
+                        console.log(data)
+                        $('#detailUkuran').html(data.nama_kategori)
+                        $('#detailBahan').html(data.bahan)
+                        $('#detailHarga').html(data.harga)
+                        $('#detailDeskripsi').html(data.deskripsi)
+                        $('#detailNama').html(data.nama_barang)
 
-        });
+                        var tampilGambar = '<img class="w-100 h-100" src="<?php echo base_url() ?>assets/images/'+data.gambar+'" alt="Image">'
+                        $('#detailImage').html(tampilGambar)
+                        $('#modal-detail').modal('show');
+                        
+                    }
+                });
+
+        })
     </script>
 

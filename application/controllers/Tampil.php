@@ -43,4 +43,10 @@ class Tampil extends CI_Controller{
     }
 
 
+    function detailbarang($id){
+        $barang = $this->barangModel->getBarangKategori($id)->row();
+        echo json_encode($barang);
+    }
+
+
 }

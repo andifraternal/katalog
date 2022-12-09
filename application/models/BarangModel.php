@@ -157,4 +157,12 @@ class BarangModel extends CI_Model{
     }
 
 
+    function getBarangKategori($barang){
+        $query = $this->db->query("
+            select * from master_barang a join master_kategori b on a.id_kategori = b.id_kategori where a.id_barang = '$barang'
+        ");
+        return $query;
+    }
+
+
 }

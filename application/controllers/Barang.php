@@ -207,6 +207,8 @@ class Barang extends CI_Controller{
         
     }
 
+    
+
 
 
 
