@@ -1,48 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
-        <title>Shop Homepage - Start Bootstrap Template</title>
-        <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="<?php echo base_url() ?>assets/template/assets/favicon.ico" />
-        
-        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-        <!-- Bootstrap icons-->
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="<?php echo base_url() ?>assets/template/css/styles.css" rel="stylesheet" />
-    </head>
-    <body>
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container px-4 px-lg-5">
-                <a class="navbar-brand" href="#!">Start Bootstrap</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
-                        <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="#!">All Products</a></li>
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" href="#!">Popular Items</a></li>
-                                <li><a class="dropdown-item" href="#!">New Arrivals</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <form class="d-flex">
-                        <button class="btn btn-outline-dark" type="submit">
-                            <i class="bi-cart-fill me-1"></i>
-                            Cart
-                            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </nav>
-        <!-- Header-->
+
+<head>
+    <meta charset="utf-8">
+    <title>E-katalog</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="<?php echo base_url() ?>assets/frontend/img/favicon.ico" rel="icon">
+
+    
+    <link href="<?php echo base_url() ?>assets/frontend/local/select2.min.css" rel="stylesheet" />
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="<?php echo base_url() ?>assets/frontend/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="<?php echo base_url() ?>assets/frontend/css/style.css" rel="stylesheet">
+</head>

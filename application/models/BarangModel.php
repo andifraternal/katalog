@@ -125,7 +125,7 @@ class BarangModel extends CI_Model{
 
     function get_barang($kategori){
         $query = $this->db->query("
-            select * from master_barang where status_aktif = '1' and id_kategori = '$kategori'
+            select * from master_barang  where id_kategori = '$kategori'
         ");
         return $query;
     }
@@ -135,6 +135,23 @@ class BarangModel extends CI_Model{
             select a.*, b.* from master_barang a join master_kategori b 
             on a.id_kategori = b.id_kategori
             order by a.created_at asc
+        ");
+        return $query;
+    }
+
+    function searchBykategoriHarga($hasilQuery){
+        $query = $this->db->query($hasilQuery);
+        return $query;
+    }
+
+    function sortByHarga($hasilQuery){
+        $query = $this->db->query($hasilQuery);
+        return $query;
+    }
+
+    function searchByKategori($kategori){
+        $query = $this->db->query("
+            select * from master_barang  where id_kategori = '$kategori'
         ");
         return $query;
     }

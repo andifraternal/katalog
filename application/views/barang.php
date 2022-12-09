@@ -378,7 +378,15 @@ echo $now;
                   cache:false,
                   async:false,
                   success: function(data){
-                      alert("Upload Image Berhasil.");
+                      // console.log(data)
+                      if(data == 200){
+                        alert("Simpan Data Berhasil.");
+                        $('#submit')[0].reset();
+                        $('#modal-xl').modal('hide');
+                        tampilData();
+                      }else{
+                        alert("Gagal Menyimpan Data.");
+                      }
                 }
               });
         });
@@ -395,7 +403,15 @@ echo $now;
                   cache:false,
                   async:false,
                   success: function(data){
-                      alert("Upload Image Berhasil.");
+                    console.log(data)
+                      if(data == 200){
+                        alert("Simpan Data Berhasil.");
+                        $('#updateDataSubmit')[0].reset();
+                        $('#modal-update').modal('hide');
+                        tampilData();
+                      }else{
+                        alert("Gagal Menyimpan Data.");
+                      }
                 }
               });
         });
@@ -444,24 +460,6 @@ echo $now;
         });
         return false;
     })
-
-    $(document).on('click', '#updateSimpanBarang', function(){
-      var idbarang=$('#id_barang_update').val();
-      var harga=$('#harga_barang_update').val();
-      $.ajax({
-          type : "POST",
-          url  : "<?php echo base_url()?>index.php/barang/updateBarang",
-          dataType : "JSON",
-          data : {idbarang:idbarang, harga:harga},
-          success: function(data){
-              $('[name="harga_barang_update"]').val("");
-              $('#modal-update').modal('hide');
-              tampilData();
-          }
-      });
-      return false;
-    })
-
 
     $(document).on('click', '.deleteBarang', function(){
       var id = $(this).attr("id");

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Catat</title>
+  <title>E-Katalog-Admin</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -32,7 +32,7 @@
     <!-- Brand Logo -->
     <a href="<?php echo base_url() ?>index.php/barang" class="brand-link">
       <img src="<?php echo base_url() ?>assets/adminlte/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Hmmm</span>
+      <span class="brand-text font-weight-light">E-Katalog</span>
     </a>
 
     <!-- Sidebar -->
@@ -67,41 +67,6 @@
               </li>
             </ul>
           </li>
-          
-          <!-- <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-copy"></i>
-              <p>
-                Transaksi
-              </p>
-              <i class="right fas fa-angle-left"></i>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="<?php //echo base_url() ?>index.php/transaksi" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Transaksi Penjualan</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-chart-pie"></i>
-              <p>
-                Laporan
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="<?php //echo base_url() ?>index.php/transaksi/laporanPenjualan" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Laporan Penjualan</p>
-                </a>
-              </li>
-            </ul>
-          </li> -->
           
         </ul>
       </nav>

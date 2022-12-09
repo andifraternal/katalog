@@ -72,23 +72,14 @@ class Barang extends CI_Controller{
             $result= $this->barangModel->simpanData($id, $kategori, $kodebarang, $namabarang, $deskripsi, $image, $ukuran, $bahan, $harga); //kirim value ke model m_upload
             // echo json_decode($result);
             if($result){
-                $data = array(
-                    'kode'       => 200,
-                    'keterangan' => 'success'
-                );
+                $data = 200;
                 echo json_encode($data);
             }else{
-                $data = array(
-                    'kode'       => 400,
-                    'keterangan' => 'failed'
-                );
+                $data = 400;
                 echo json_encode($data);
             }
         }else{
-            $data = array(
-                'kode'       => 401,
-                'keterangan' => 'failed'
-            );
+            $data = 401;
             echo json_encode($data);
         }
 
@@ -122,56 +113,39 @@ class Barang extends CI_Controller{
 
         $gambar_lama= $this->input->post('gambar_lama');
 
-        if(isset($_FILES['gambar_update'])){
-            $config['upload_path']="./assets/images"; //path folder file upload
-            $config['allowed_types']='gif|jpg|png|jpeg'; //type file yang boleh di upload
-            $config['encrypt_name'] = TRUE; //enkripsi file name upload
-            
-            $this->load->library('upload',$config); //call library upload 
-            if($this->upload->do_upload('gambar_update')){ //upload file
-                $data = array('upload_data' => $this->upload->data()); //ambil file name yang diupload
-    
-                // $judul= $this->input->post('judul'); //get judul image
-                $image= $data['upload_data']['file_name']; //set file name ke variable image
-                
-                $result= $this->barangModel->updateData($id, $kategori, $kodebarang, $namabarang, $deskripsi, $image, $ukuran, $bahan, $harga); //kirim value ke model m_upload
-                // echo json_decode($result);
-                if($result){
-                    $data = array(
-                        'kode'       => 200,
-                        'keterangan' => 'success'
-                    );
-                    echo json_encode($data);
-                }else{
-                    $data = array(
-                        'kode'       => 400,
-                        'keterangan' => 'failed'
-                    );
-                    echo json_encode($data);
-                }
+        if($gambar == ''){
+            $result= $this->barangModel->updateData($id, $kategori, $kodebarang, $namabarang, $deskripsi, $gambar_lama, $ukuran, $bahan, $harga);
+            if($result){
+                $data = 200;
+                echo json_encode($data);
             }else{
-                $data = array(
-                    'kode'       => 401,
-                    'keterangan' => 'failed'
-                );
+                $data = 400;
                 echo json_encode($data);
             }
         }else{
-            $result= $this->barangModel->updateData($id, $kategori, $kodebarang, $namabarang, $deskripsi, $gambar_lama, $ukuran, $bahan, $harga);
-            if($result){
-                $data = array(
-                    'kode'       => 200,
-                    'keterangan' => 'success'
-                );
-                echo json_encode($data);
-            }else{
-                $data = array(
-                    'kode'       => 400,
-                    'keterangan' => 'failed'
-                );
-                echo json_encode($data);
+            if(isset($_FILES['gambar_update'])){
+                $config['upload_path']="./assets/images"; //path folder file upload
+                $config['allowed_types']='gif|jpg|png|jpeg'; //type file yang boleh di upload
+                $config['encrypt_name'] = TRUE; //enkripsi file name upload
+                
+                $this->load->library('upload',$config); //call library upload 
+                if($this->upload->do_upload('gambar_update')){ //upload file
+                    $data = array('upload_data' => $this->upload->data()); //ambil file name yang diupload
+        
+                    // $judul= $this->input->post('judul'); //get judul image
+                    $image= $data['upload_data']['file_name']; //set file name ke variable image
+                    
+                    $result= $this->barangModel->updateData($id, $kategori, $kodebarang, $namabarang, $deskripsi, $image, $ukuran, $bahan, $harga); //kirim value ke model m_upload
+                    // echo json_decode($result);
+                    if($result){
+                        $data = 200;
+                        echo json_encode($data);
+                    }else{
+                        $data = 400;
+                        echo json_encode($data);
+                    }
+                }
             }
-
         }
     }
 
