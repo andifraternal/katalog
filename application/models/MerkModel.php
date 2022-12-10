@@ -1,10 +1,10 @@
 <?php
 
-class KategoriModel extends CI_Model{
-    var $tabel = 'master_kategori'; //nama tabel dari database
-    var $column_order = array(null, 'id_kategori','nama_kategori'); //field yang ada di table user
-    var $column_search = array('id_kategori','nama_kategori'); //field yang diizin untuk pencarian 
-    var $order = array('nama_kategori' => 'asc'); // default order 
+class MerkModel extends CI_Model{
+    var $tabel = 'master_merk'; //nama tabel dari database
+    var $column_order = array(null, 'id_merk','nama_merk'); //field yang ada di table user
+    var $column_search = array('id_merk','nama_merk'); //field yang diizin untuk pencarian 
+    var $order = array('nama_merk' => 'asc'); // default order 
  
     public function __construct()
     {
@@ -76,38 +76,38 @@ class KategoriModel extends CI_Model{
         return $this->db->count_all_results();
     }
 
-    function insertData($kategori, $aktif){
+    function insertData($merk, $aktif){
         $id             = uniqid();
         $query = $this->db->query("
-            insert into master_kategori (id_kategori, nama_kategori,  aktif) values ('$id', '$kategori', '$aktif')
+            insert into master_merk (id_merk, nama_merk,  aktif) values ('$id', '$merk', '$aktif')
         ");
         return $query;
     }
 
-    function getKategori($kategori){
+    function getMerk($merk){
         $query = $this->db->query("
-            select * from master_kategori where id_kategori = '$kategori'
+            select * from master_merk where id_merk = '$merk'
         ");
         return $query;
     }
 
-    function updateData($id_kategori, $nama_kategori, $status){
+    function updateData($id_merk, $nama_merk, $status){
         $query = $this->db->query("
-            update master_kategori set nama_kategori = '$nama_kategori', aktif= '$status' where id_kategori = '$id_kategori'
+            update master_merk set nama_merk = '$nama_merk', aktif= '$status' where id_merk = '$id_merk'
         ");
         return $query;
     }
 
     function get_all_data(){
         $query = $this->db->query("
-            select * from master_kategori where aktif = 'Y' order by nama_kategori asc
+            select * from master_merk where aktif = 'Y' order by nama_merk asc
         ");
         return $query;
     }
 
     function get_all_data_all(){
         $query = $this->db->query("
-            select * from master_kategori  order by nama_kategori asc
+            select * from master_merk order by nama_merk asc
         ");
         return $query;
     }

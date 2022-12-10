@@ -4,8 +4,9 @@ class BarangModel extends CI_Model{
 
     var $tabelbarang = 'master_barang'; //nama tabel dari database
     var $tabelkategori = 'master_kategori'; //nama tabel dari database
-    var $column_order = array(null, 'master_kategori.nama_kategori','master_barang.kode_barang_sistem', 'master_barang.nama_barang', null, null, 'master_barang.ukuran', 'master_barang.bahan', 'master_barang.harga', 'master_barang.created_at', 'master_barang.updated_at'); //field yang ada di table user
-    var $column_search = array('master_kategori.nama_kategori','master_barang.nama_barang', 'master_barang.ukuran', 'master_barang.bahan', 'master_barang.harga'); //field yang diizin untuk pencarian 
+    var $tabelmerk = 'master_merk'; //nama tabel dari database
+    var $column_order = array(null, 'master_kategori.nama_kategori','master_merk.nama_merk', 'master_barang.nama_barang', null, null,  'master_barang.bahan', 'master_barang.harga', 'master_barang.created_at', 'master_barang.updated_at'); //field yang ada di table user
+    var $column_search = array('master_kategori.nama_kategori', 'master_merk.nama_merk', 'master_barang.nama_barang', 'master_barang.bahan', 'master_barang.harga'); //field yang diizin untuk pencarian 
     var $order = array('master_kategori.nama_kategori' => 'asc'); // default order 
  
     public function __construct()
@@ -17,9 +18,10 @@ class BarangModel extends CI_Model{
     private function _get_datatables_query()
     {
          
-        $this->db->select('master_kategori.id_kategori, master_kategori.nama_kategori, master_kategori.aktif, master_barang.*');
+        $this->db->select('master_kategori.id_kategori, master_kategori.nama_kategori, master_kategori.aktif, master_merk.id_merk, master_merk.nama_merk, master_barang.*');
         $this->db->from($this->tabelbarang);
         $this->db->join($this->tabelkategori, 'master_barang.id_kategori = master_kategori.id_kategori');
+        $this->db->join($this->tabelmerk, 'master_barang.id_merk = master_merk.id_merk');
         // $this->db->where('master_barang.aktif' , 'Y');
  
         $i = 0;
@@ -78,14 +80,15 @@ class BarangModel extends CI_Model{
         $this->db->select('*');
         $this->db->from($this->tabelbarang);
         $this->db->join($this->tabelkategori, 'master_barang.id_kategori = master_kategori.id_kategori');
+        $this->db->join($this->tabelmerk, 'master_barang.id_merk = master_merk.id_merk');
         // $this->db->where('master_barang.aktif' , 'Y');
         return $this->db->count_all_results();
     }
 
 
-    function simpanData($id, $kategori, $kodebarang, $namabarang, $deskripsi, $image, $ukuran, $bahan, $harga){
+    function simpanData($id, $kategori, $merk, $namabarang, $deskripsi, $image,  $bahan, $harga){
         $query = $this->db->query("
-            insert into master_barang (id_barang, id_kategori, kode_barang_sistem, nama_barang, deskripsi, gambar, ukuran, bahan, harga) values ('$id', '$kategori', '$kodebarang', '$namabarang', '$deskripsi', '$image', '$ukuran', '$bahan', '$harga')
+            insert into master_barang (id_barang, id_kategori, id_merk, nama_barang, deskripsi, gambar,  bahan, harga) values ('$id', '$kategori', '$merk', '$namabarang', '$deskripsi', '$image', '$bahan', '$harga')
         ");
         return $query;
     }
@@ -97,16 +100,15 @@ class BarangModel extends CI_Model{
         return $query;
     }
 
-    function updateData($id, $kategori, $kodebarang, $namabarang, $deskripsi, $gambar, $ukuran, $bahan, $harga){
+    function updateData($id, $kategori, $merk, $namabarang, $deskripsi, $gambar, $bahan, $harga){
         $now = date('Y-m-d H:i:s');
         $query = $this->db->query("
             update master_barang set 
                 id_kategori         = '$kategori', 
-                kode_barang_sistem  = '$kodebarang',
+                id_merk             = '$merk',
                 nama_barang         = '$namabarang',
                 deskripsi           = '$deskripsi',
                 gambar              = '$gambar',
-                ukuran              = '$ukuran',
                 bahan               = '$bahan',
                 harga               = '$harga',
                 updated_at          = '$now'
@@ -134,7 +136,7 @@ class BarangModel extends CI_Model{
         $query = $this->db->query("
             select a.*, b.* from master_barang a join master_kategori b 
             on a.id_kategori = b.id_kategori
-            order by a.created_at asc
+            order by a.nama_barang asc
         ");
         return $query;
     }
@@ -149,18 +151,40 @@ class BarangModel extends CI_Model{
         return $query;
     }
 
-    function searchByKategori($kategori){
-        $query = $this->db->query("
-            select * from master_barang  where id_kategori = '$kategori'
-        ");
+    function searchByKategori($hasilQuery){
+        $query = $this->db->query($hasilQuery);
+        return $query;
+    }
+
+    function searchByMerk($hasilQuery){
+        $query = $this->db->query($hasilQuery);
+        return $query;
+    }
+
+    function searchByMerkHarga($hasilQuery){
+        $query = $this->db->query($hasilQuery);
+        return $query;
+    }
+
+    function searchByKategoriMerk($hasilQuery){
+        $query = $this->db->query($hasilQuery);
+        return $query;
+    }
+
+    function searchBykategorihargaMerk($hasilQuery){
+        $query = $this->db->query($hasilQuery);
         return $query;
     }
 
 
-    function getBarangKategori($barang){
-        $query = $this->db->query("
-            select * from master_barang a join master_kategori b on a.id_kategori = b.id_kategori where a.id_barang = '$barang'
-        ");
+    function getBarangKategori($hasilQuery){
+        $query = $this->db->query($hasilQuery);
+        return $query;
+    }
+
+
+    function tampilDataAll($hasilQuery){
+        $query = $this->db->query($hasilQuery);
         return $query;
     }
 

@@ -3,13 +3,14 @@
 class Barang extends CI_Controller{
     function __construct(){
         parent::__construct();
-        $this->load->model(array('barangModel', 'kategoriModel'));
+        $this->load->model(array('barangModel', 'kategoriModel', 'merkModel'));
     }
 
     function index(){
         $kategori = $this->kategoriModel->get_all_data()->result();
+        $merk = $this->merkModel->get_all_data()->result();
         $this->load->view('__template/header');
-        $this->load->view('barang', array('kategori'=>$kategori));
+        $this->load->view('barang', array('kategori'=>$kategori, 'merk'=>$merk));
         $this->load->view('__template/footer');
     }
 
@@ -23,11 +24,11 @@ class Barang extends CI_Controller{
             $row = array();
             $row[] = $no;
             $row[] = $field->nama_kategori;
-            $row[] = $field->kode_barang_sistem;
+            $row[] = $field->nama_merk;
             $row[] = $field->nama_barang;
             $row[] = $field->deskripsi;
             $row[] = '<img src="'.base_url().'/assets/images/'.$field->gambar.'" style="height:50px;width:50px;"/>';
-            $row[] = $field->ukuran;
+            // $row[] = $field->ukuran;
             $row[] = $field->bahan;
             $row[] = $field->harga;
             $row[] = $field->created_at;
@@ -50,10 +51,10 @@ class Barang extends CI_Controller{
 
     function simpanBarang(){
         $kategori   = $this->input->post('kategori'); 
-        $kodebarang = $this->input->post('kode_barang');  
+        $merk     = $this->input->post('merk');  
         $namabarang = $this->input->post('nama_barang'); 
         $deskripsi  = $this->input->post('deskripsi');
-        $ukuran     = $this->input->post('ukuran');
+        // $ukuran     = $this->input->post('ukuran');
         $bahan      = $this->input->post('bahan');
         $harga      = $this->input->post('harga');
         $id         = uniqid();
@@ -69,7 +70,7 @@ class Barang extends CI_Controller{
             // $judul= $this->input->post('judul'); //get judul image
             $image= $data['upload_data']['file_name']; //set file name ke variable image
              
-            $result= $this->barangModel->simpanData($id, $kategori, $kodebarang, $namabarang, $deskripsi, $image, $ukuran, $bahan, $harga); //kirim value ke model m_upload
+            $result= $this->barangModel->simpanData($id, $kategori, $merk, $namabarang, $deskripsi, $image, $bahan, $harga); //kirim value ke model m_upload
             // echo json_decode($result);
             if($result){
                 $data = 200;
@@ -88,11 +89,13 @@ class Barang extends CI_Controller{
 
     function getbarang($barang){
         $barang = $this->barangModel->getBarang($barang)->row();
-        $kategori = $this->kategoriModel->get_all_data()->result();
+        $kategori = $this->kategoriModel->get_all_data_all()->result();
+        $merk = $this->merkModel->get_all_data_all()->result();
 
         $data = array(
             'barang'    => $barang,
-            'kategori'  => $kategori
+            'kategori'  => $kategori,
+            'merk'      => $merk
         );
 
         echo json_encode($data);
@@ -101,10 +104,10 @@ class Barang extends CI_Controller{
 
     function updateBarang(){
         $kategori   = $this->input->post('kategori_update'); 
-        $kodebarang = $this->input->post('kode_barang_update');  
+        $merk       = $this->input->post('merk_update');  
         $namabarang = $this->input->post('nama_barang_update'); 
         $deskripsi  = $this->input->post('deskripsi_update');
-        $ukuran     = $this->input->post('ukuran_update');
+        // $ukuran     = $this->input->post('ukuran_update');
         $bahan      = $this->input->post('bahan_update');
         $harga      = $this->input->post('harga_update');
         $id         = $this->input->post('id_barang_update'); 
@@ -114,7 +117,7 @@ class Barang extends CI_Controller{
         $gambar_lama= $this->input->post('gambar_lama');
 
         if($gambar == ''){
-            $result= $this->barangModel->updateData($id, $kategori, $kodebarang, $namabarang, $deskripsi, $gambar_lama, $ukuran, $bahan, $harga);
+            $result= $this->barangModel->updateData($id, $kategori, $merk, $namabarang, $deskripsi, $gambar_lama, $bahan, $harga);
             if($result){
                 $data = 200;
                 echo json_encode($data);
@@ -135,7 +138,7 @@ class Barang extends CI_Controller{
                     // $judul= $this->input->post('judul'); //get judul image
                     $image= $data['upload_data']['file_name']; //set file name ke variable image
                     
-                    $result= $this->barangModel->updateData($id, $kategori, $kodebarang, $namabarang, $deskripsi, $image, $ukuran, $bahan, $harga); //kirim value ke model m_upload
+                    $result= $this->barangModel->updateData($id, $kategori, $merk, $namabarang, $deskripsi, $image, $bahan, $harga); //kirim value ke model m_upload
                     // echo json_decode($result);
                     if($result){
                         $data = 200;
@@ -172,11 +175,7 @@ class Barang extends CI_Controller{
         echo json_encode($query);
     }
 
-    function tampilAllbarang(){
-        $data = $this->barangModel->get_barang_all()->result();
-
-        echo json_encode($data);
-    }
+    
 
     function tampilBarangTanpaHarga(){
         $kategori = $_POST['kategori'];

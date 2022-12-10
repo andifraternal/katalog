@@ -8,16 +8,37 @@
                     <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Katalog</h1>
                 </a>
             </div>
-            <div class="col-lg-6 col-6 text-left">
+            <div class="col-lg-3 col-3 text-left">
                 <select class="form-control" id="sortByHarga">
-                    <option value="tanpaSortHarga">Sort by</option>
-                    <option value="hargaTertinggi">Targa Tertinggi</option>
+                    <option value="tanpaSortHarga">Urutkan Berdasarkan Harga</option>
+                    <option value="hargaTertinggi">Harga Tertinggi</option>
                     <option value="hargaTerendah">Harga Terendah</option>
                 </select>
             </div>
-            <div class="col-lg-3 col-6 text-right">
-                
+            <div class="col-lg-3 col-3 text-left">
+                <select class="form-control" id="sortByAbjad">
+                    <option value="awal">A -> Z</option>
+                    <option value="akhir">Z -> A</option>
+                </select>
             </div>
+
+            <div class="col-lg-3 col-3 text-left">
+                <select class="form-control select2" id="sortByMerk">
+                    <option value="allMerk">All Merk</option>
+                    <?php
+                        foreach ($merk as $datamerk) {
+                            # code...
+                            echo '
+                                <option value="'.$datamerk->id_merk.'">'.$datamerk->nama_merk.'</option>    
+                            ';
+                        }
+                    ?>
+                    
+                </select>
+            </div>
+            <!-- <div class="col-lg-3 col-3 text-right">
+                
+            </div> -->
         </div>
     </div>
     <!-- Topbar End -->
@@ -156,6 +177,7 @@
             </div>
 
             <div class="col-lg-7 pb-5">
+                <h2 class="font-weight-semi-bold"><span id="detailMerk"></span></h2>
                 <h3 class="font-weight-semi-bold"><span id="detailNama"></span></h3>
                 <div class="d-flex mb-3">
                 </div>
@@ -218,10 +240,10 @@
         $(document).ready(function() {
             $('.js-example-basic-multiple').select2();
 
-            function tampilData(){
+            function tampilData(abjad){
                 $.ajax({
                     type : "GET",
-                    url  : "<?php echo base_url('index.php/barang/tampilAllbarang')?>",
+                    url  : "<?php echo base_url()?>index.php/tampil/tampilAllbarang/"+abjad,
                     dataType : "JSON",
                     success: function(data){
                         console.log(data)
@@ -235,6 +257,7 @@
                             tampilan += '<img class="img-fluid w-100" src="<?php echo base_url() ?>assets/images/'+data[i].gambar+'" alt="">'
                             tampilan += '</div>'
                             tampilan += '<div class="card-body border-left border-right text-center p-0 pt-4 pb-3">'
+                            tampilan += '<h6 class="text-truncate mb-3">'+data[i].nama_merk+'</h6>'
                             tampilan += '<h6 class="text-truncate mb-3">'+data[i].nama_barang+'</h6>'
                             tampilan += '<div class="d-flex justify-content-center">'
                             tampilan += '<h6>'+data[i].harga+'</h6><h6 class="text-muted ml-2"><del>'+data[i].harga+'</del></h6>'
@@ -248,20 +271,25 @@
                         }
 
                         $('#tampilData').html(tampilan);
-                        
+                        $('#id_kategori').val('');
                     }
                 });
             }
 
             // load data awal
-            var harga = $('#sortByHarga').val(); 
-            tampilData();
+            $('.select2').select2(); 
+            var harga = $('#sortByHarga').val();
+            var abjad = $('#sortByAbjad').val();
+            var merk = $('#sortByMerk').val();
+            // $('#id_kategori').val('allKategori');
+            // var 
+            tampilData(abjad);
 
 
-            function filterbykategori(id){
+            function filterbykategori(id, abjad){
                 $.ajax({
                         type : "GET",
-                        url  : "<?php echo base_url()?>index.php/tampil/searchBykategori/"+id,
+                        url  : "<?php echo base_url()?>index.php/tampil/searchBykategori/"+id+"/"+abjad,
                         dataType : "JSON",
                         success: function(data){
                             console.log(data)
@@ -275,6 +303,7 @@
                                 tampilan += '<img class="img-fluid w-100" src="<?php echo base_url() ?>assets/images/'+data[i].gambar+'" alt="">'
                                 tampilan += '</div>'
                                 tampilan += '<div class="card-body border-left border-right text-center p-0 pt-4 pb-3">'
+                                tampilan += '<h6 class="text-truncate mb-3">'+data[i].nama_merk+'</h6>'
                                 tampilan += '<h6 class="text-truncate mb-3">'+data[i].nama_barang+'</h6>'
                                 tampilan += '<div class="d-flex justify-content-center">'
                                 tampilan += '<h6>'+data[i].harga+'</h6><h6 class="text-muted ml-2"><del>'+data[i].harga+'</del></h6>'
@@ -295,10 +324,10 @@
             }
 
 
-            function filterbyharga(harga){
+            function filterbyharga(harga, abjad){
                 $.ajax({
                         type : "GET",
-                        url  : "<?php echo base_url()?>index.php/tampil/searchByHarga/"+harga,
+                        url  : "<?php echo base_url()?>index.php/tampil/searchByHarga/"+harga+"/"+abjad,
                         dataType : "JSON",
                         success: function(data){
                             console.log(data)
@@ -312,6 +341,44 @@
                                 tampilan += '<img class="img-fluid w-100" src="<?php echo base_url() ?>assets/images/'+data[i].gambar+'" alt="">'
                                 tampilan += '</div>'
                                 tampilan += '<div class="card-body border-left border-right text-center p-0 pt-4 pb-3">'
+                                tampilan += '<h6 class="text-truncate mb-3">'+data[i].nama_merk+'</h6>'
+                                tampilan += '<h6 class="text-truncate mb-3">'+data[i].nama_barang+'</h6>'
+                                tampilan += '<div class="d-flex justify-content-center">'
+                                tampilan += '<h6>'+data[i].harga+'</h6><h6 class="text-muted ml-2"><del>'+data[i].harga+'</del></h6>'
+                                tampilan += '</div>'
+                                tampilan += '</div>'
+                                tampilan += '<div class="card-footer d-flex justify-content-between bg-light border">'
+                                tampilan += '<i class="fas fa-eye text-primary mr-1"></i>Detail'
+                                tampilan += '</div>'
+                                tampilan += '</div>'
+                                tampilan += '</div>'
+                            }
+
+                            $('#tampilData').html(tampilan);
+                            $('#id_kategori').val('');
+                        }
+                    });
+            }
+
+
+            function filterbyMerk(merk, abjad){
+                $.ajax({
+                        type : "GET",
+                        url  : "<?php echo base_url()?>index.php/tampil/searchByMerk/"+merk+"/"+abjad,
+                        dataType : "JSON",
+                        success: function(data){
+                            console.log(data)
+                            var base_url = window.location.origin;
+                            var tampilan = ''
+                            for(i=0; i<data.length; i++){
+                                
+                                tampilan += '<div class="col-lg-3 col-md-6 col-sm-12 pb-1 detailBarang" data-id="'+data[i].id_barang+'">'
+                                tampilan += '<div class="card product-item border-0 mb-4">'
+                                tampilan += '<div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">'
+                                tampilan += '<img class="img-fluid w-100" src="<?php echo base_url() ?>assets/images/'+data[i].gambar+'" alt="">'
+                                tampilan += '</div>'
+                                tampilan += '<div class="card-body border-left border-right text-center p-0 pt-4 pb-3">'
+                                tampilan += '<h6 class="text-truncate mb-3">'+data[i].nama_merk+'</h6>'
                                 tampilan += '<h6 class="text-truncate mb-3">'+data[i].nama_barang+'</h6>'
                                 tampilan += '<div class="d-flex justify-content-center">'
                                 tampilan += '<h6>'+data[i].harga+'</h6><h6 class="text-muted ml-2"><del>'+data[i].harga+'</del></h6>'
@@ -332,10 +399,10 @@
 
 
 
-            function filterbykategoriharga(id, harga){
+            function filterbykategoriharga(kategori, harga, abjad){
                 $.ajax({
                         type : "GET",
-                        url  : "<?php echo base_url()?>index.php/tampil/searchBykategoriHarga/"+id+"/"+harga,
+                        url  : "<?php echo base_url()?>index.php/tampil/searchBykategoriHarga/"+kategori+"/"+harga+"/"+abjad,
                         dataType : "JSON",
                         success: function(data){
                             console.log(data)
@@ -349,6 +416,7 @@
                                 tampilan += '<img class="img-fluid w-100" src="<?php echo base_url() ?>assets/images/'+data[i].gambar+'" alt="">'
                                 tampilan += '</div>'
                                 tampilan += '<div class="card-body border-left border-right text-center p-0 pt-4 pb-3">'
+                                tampilan += '<h6 class="text-truncate mb-3">'+data[i].nama_merk+'</h6>'
                                 tampilan += '<h6 class="text-truncate mb-3">'+data[i].nama_barang+'</h6>'
                                 tampilan += '<div class="d-flex justify-content-center">'
                                 tampilan += '<h6>'+data[i].harga+'</h6><h6 class="text-muted ml-2"><del>'+data[i].harga+'</del></h6>'
@@ -362,7 +430,118 @@
                             }
 
                             $('#tampilData').html(tampilan);
-                            $('#id_kategori').val(id);
+                            $('#id_kategori').val(kategori);
+                            
+                        }
+                    });
+            }
+
+            function filterbymerkharga(merk, harga, abjad){
+                $.ajax({
+                        type : "GET",
+                        url  : "<?php echo base_url()?>index.php/tampil/searchByMerkHarga/"+merk+"/"+harga+"/"+abjad,
+                        dataType : "JSON",
+                        success: function(data){
+                            console.log(data)
+                            var base_url = window.location.origin;
+                            var tampilan = ''
+                            for(i=0; i<data.length; i++){
+                                
+                                tampilan += '<div class="col-lg-3 col-md-6 col-sm-12 pb-1 detailBarang" data-id="'+data[i].id_barang+'">'
+                                tampilan += '<div class="card product-item border-0 mb-4">'
+                                tampilan += '<div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">'
+                                tampilan += '<img class="img-fluid w-100" src="<?php echo base_url() ?>assets/images/'+data[i].gambar+'" alt="">'
+                                tampilan += '</div>'
+                                tampilan += '<div class="card-body border-left border-right text-center p-0 pt-4 pb-3">'
+                                tampilan += '<h6 class="text-truncate mb-3">'+data[i].nama_merk+'</h6>'
+                                tampilan += '<h6 class="text-truncate mb-3">'+data[i].nama_barang+'</h6>'
+                                tampilan += '<div class="d-flex justify-content-center">'
+                                tampilan += '<h6>'+data[i].harga+'</h6><h6 class="text-muted ml-2"><del>'+data[i].harga+'</del></h6>'
+                                tampilan += '</div>'
+                                tampilan += '</div>'
+                                tampilan += '<div class="card-footer d-flex justify-content-between bg-light border">'
+                                tampilan += '<i class="fas fa-eye text-primary mr-1"></i>Detail'
+                                tampilan += '</div>'
+                                tampilan += '</div>'
+                                tampilan += '</div>'
+                            }
+
+                            $('#tampilData').html(tampilan);
+                            // $('#id_kategori').val(id);
+                            
+                        }
+                    });
+            }
+
+            function filterbykategorimerk(kategori, merk, abjad){
+                $.ajax({
+                        type : "GET",
+                        url  : "<?php echo base_url()?>index.php/tampil/searchBykategoriMerk/"+kategori+"/"+merk+"/"+abjad,
+                        dataType : "JSON",
+                        success: function(data){
+                            console.log(data)
+                            var base_url = window.location.origin;
+                            var tampilan = ''
+                            for(i=0; i<data.length; i++){
+                                
+                                tampilan += '<div class="col-lg-3 col-md-6 col-sm-12 pb-1 detailBarang" data-id="'+data[i].id_barang+'">'
+                                tampilan += '<div class="card product-item border-0 mb-4">'
+                                tampilan += '<div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">'
+                                tampilan += '<img class="img-fluid w-100" src="<?php echo base_url() ?>assets/images/'+data[i].gambar+'" alt="">'
+                                tampilan += '</div>'
+                                tampilan += '<div class="card-body border-left border-right text-center p-0 pt-4 pb-3">'
+                                tampilan += '<h6 class="text-truncate mb-3">'+data[i].nama_merk+'</h6>'
+                                tampilan += '<h6 class="text-truncate mb-3">'+data[i].nama_barang+'</h6>'
+                                tampilan += '<div class="d-flex justify-content-center">'
+                                tampilan += '<h6>'+data[i].harga+'</h6><h6 class="text-muted ml-2"><del>'+data[i].harga+'</del></h6>'
+                                tampilan += '</div>'
+                                tampilan += '</div>'
+                                tampilan += '<div class="card-footer d-flex justify-content-between bg-light border">'
+                                tampilan += '<i class="fas fa-eye text-primary mr-1"></i>Detail'
+                                tampilan += '</div>'
+                                tampilan += '</div>'
+                                tampilan += '</div>'
+                            }
+
+                            $('#tampilData').html(tampilan);
+                            $('#id_kategori').val(kategori);
+                            
+                        }
+                    });
+            }
+
+            function filterbykategorihargamerk(kategori, merk, harga, abjad){
+                $.ajax({
+                        type : "GET",
+                        url  : "<?php echo base_url()?>index.php/tampil/searchBykategorihargaMerk/"+kategori+"/"+merk+"/"+harga+"/"+abjad,
+                        dataType : "JSON",
+                        success: function(data){
+                            console.log(data)
+                            var base_url = window.location.origin;
+                            var tampilan = ''
+                            for(i=0; i<data.length; i++){
+                                
+                                tampilan += '<div class="col-lg-3 col-md-6 col-sm-12 pb-1 detailBarang" data-id="'+data[i].id_barang+'">'
+                                tampilan += '<div class="card product-item border-0 mb-4">'
+                                tampilan += '<div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">'
+                                tampilan += '<img class="img-fluid w-100" src="<?php echo base_url() ?>assets/images/'+data[i].gambar+'" alt="">'
+                                tampilan += '</div>'
+                                tampilan += '<div class="card-body border-left border-right text-center p-0 pt-4 pb-3">'
+                                tampilan += '<h6 class="text-truncate mb-3">'+data[i].nama_merk+'</h6>'
+                                tampilan += '<h6 class="text-truncate mb-3">'+data[i].nama_barang+'</h6>'
+                                tampilan += '<div class="d-flex justify-content-center">'
+                                tampilan += '<h6>'+data[i].harga+'</h6><h6 class="text-muted ml-2"><del>'+data[i].harga+'</del></h6>'
+                                tampilan += '</div>'
+                                tampilan += '</div>'
+                                tampilan += '<div class="card-footer d-flex justify-content-between bg-light border">'
+                                tampilan += '<i class="fas fa-eye text-primary mr-1"></i>Detail'
+                                tampilan += '</div>'
+                                tampilan += '</div>'
+                                tampilan += '</div>'
+                            }
+
+                            $('#tampilData').html(tampilan);
+                            $('#id_kategori').val(kategori);
                             
                         }
                     });
@@ -370,38 +549,118 @@
 
 
             $('.hasilKategori').click(function(){
-                var kategori = $(this).attr('id')
+                // var kategori = $(this).attr('id')
                 var harga = $('#sortByHarga').val();
-                if(harga == 'tanpaSortHarga' && kategori == 'allKategori'){
-                    tampilData()
-                }else if(harga == 'tanpaSortHarga' && kategori == ''){
-                    tampilData()
-                }else if(harga != 'tanpaSortHarga' && kategori == 'allKategori'){
-                    filterbyharga(harga)
-                }else if (harga == 'tanpaSortHarga' && kategori != 'allKategori'){
-                    filterbykategori(kategori)
-                }else{
-                    filterbykategoriharga(kategori, harga)
+                var abjad = $('#sortByAbjad').val();
+                var merk = $('#sortByMerk').val();
+                var kategori = ($(this).attr('id') == ''?'allKategori':$(this).attr('id'))
+
+                if(harga == 'tanpaSortHarga' && kategori == 'allKategori' && merk == 'allMerk'){
+                    tampilData(abjad)
+                // }else if(harga == 'tanpaSortHarga' && kategori == '' && merk == 'allMerk'){
+                //     tampilData(abjad)
+                }else if (harga != 'tanpaSortHarga' && kategori == 'allKategori' && merk == 'allMerk'){
+                    filterbyharga(harga, abjad)
+                }else if (harga == 'tanpaSortHarga' && kategori != 'allKategori' && merk == 'allMerk'){
+                    filterbykategori(kategori, abjad)
+                }else if (harga == 'tanpaSortHarga' && kategori == 'allKategori' && merk != 'allMerk'){
+                    filterbyMerk(merk, abjad)
+                }else if (harga != 'tanpaSortHarga' && kategori != 'allKategori' && merk == 'allMerk'){
+                    filterbykategoriharga(kategori, harga, abjad)
+                }else if (harga != 'tanpaSortHarga' && kategori == 'allKategori' && merk != 'allMerk'){
+                    filterbymerkharga(merk, harga, abjad)
+                }else if (harga == 'tanpaSortHarga' && kategori != 'allKategori' && merk != 'allMerk'){
+                    filterbykategorimerk(kategori, merk, abjad)
+                }else if (harga != 'tanpaSortHarga' && kategori != 'allKategori' && merk != 'allMerk'){
+                    filterbykategorihargamerk(kategori, merk, harga, abjad)
                 }
+                  
             })
 
 
             $('#sortByHarga').change(function(){
-                var kategori = $('#id_kategori').val();
+                var kat = $('#id_kategori').val();
+                var kategori = (kat == ''?'allKategori':kat)
                 var harga = $('#sortByHarga').val();
-                console.log(harga)
-                if(harga == 'tanpaSortHarga' && kategori == 'allKategori'){
-                    tampilData()
-                }else if(harga == 'tanpaSortHarga' && kategori == ''){
-                    tampilData()
-                }else if(harga != 'tanpaSortHarga' && kategori == ''){
-                    filterbyharga(harga)
-                }else if(harga != 'tanpaSortHarga' && kategori == 'allKategori'){
-                    filterbyharga(harga)
-                }else if (harga == 'tanpaSortHarga' && kategori != 'allKategori'){
-                    filterbykategori(kategori)
-                }else{
-                    filterbykategoriharga(kategori, harga)
+                var abjad = $('#sortByAbjad').val();
+                var merk = $('#sortByMerk').val();
+
+                if(harga == 'tanpaSortHarga' && kategori == 'allKategori' && merk == 'allMerk'){
+                    tampilData(abjad)
+                }else if(harga == 'tanpaSortHarga' && kategori == '' && merk == 'allMerk'){
+                    tampilData(abjad)
+                }else if (harga != 'tanpaSortHarga' && kategori == 'allKategori' && merk == 'allMerk'){
+                    filterbyharga(harga, abjad)
+                }else if (harga == 'tanpaSortHarga' && kategori != 'allKategori' && merk == 'allMerk'){
+                    filterbykategori(kategori, abjad)
+                }else if (harga == 'tanpaSortHarga' && kategori == 'allKategori' && merk != 'allMerk'){
+                    filterbyMerk(merk, abjad)
+                }else if (harga != 'tanpaSortHarga' && kategori != 'allKategori' && merk == 'allMerk'){
+                    filterbykategoriharga(kategori, harga, abjad)
+                }else if (harga != 'tanpaSortHarga' && kategori == 'allKategori' && merk != 'allMerk'){
+                    filterbymerkharga(merk, harga, abjad)
+                }else if (harga == 'tanpaSortHarga' && kategori != 'allKategori' && merk != 'allMerk'){
+                    filterbykategorimerk(kategori, merk, abjad)
+                }else if (harga != 'tanpaSortHarga' && kategori != 'allKategori' && merk != 'allMerk'){
+                    filterbykategorihargamerk(kategori, merk, harga, abjad)
+                }
+            })
+
+
+            $('#sortByAbjad').change(function(){
+                var kat = $('#id_kategori').val();
+                var kategori = (kat == ''?'allKategori':kat)
+                var harga = $('#sortByHarga').val();
+                var abjad = $('#sortByAbjad').val();
+                var merk = $('#sortByMerk').val();
+
+                if(harga == 'tanpaSortHarga' && kategori == 'allKategori' && merk == 'allMerk'){
+                    tampilData(abjad)
+                }else if(harga == 'tanpaSortHarga' && kategori == '' && merk == 'allMerk'){
+                    tampilData(abjad)
+                }else if (harga != 'tanpaSortHarga' && kategori == 'allKategori' && merk == 'allMerk'){
+                    filterbyharga(harga, abjad)
+                }else if (harga == 'tanpaSortHarga' && kategori != 'allKategori' && merk == 'allMerk'){
+                    filterbykategori(kategori, abjad)
+                }else if (harga == 'tanpaSortHarga' && kategori == 'allKategori' && merk != 'allMerk'){
+                    filterbyMerk(merk, abjad)
+                }else if (harga != 'tanpaSortHarga' && kategori != 'allKategori' && merk == 'allMerk'){
+                    filterbykategoriharga(kategori, harga, abjad)
+                }else if (harga != 'tanpaSortHarga' && kategori == 'allKategori' && merk != 'allMerk'){
+                    filterbymerkharga(merk, harga, abjad)
+                }else if (harga == 'tanpaSortHarga' && kategori != 'allKategori' && merk != 'allMerk'){
+                    filterbykategorimerk(kategori, merk, abjad)
+                }else if (harga != 'tanpaSortHarga' && kategori != 'allKategori' && merk != 'allMerk'){
+                    filterbykategorihargamerk(kategori, merk, harga, abjad)
+                }
+            })
+
+
+            $('#sortByMerk').change(function(){
+                var kat = $('#id_kategori').val();
+                var kategori = (kat == ''?'allKategori':kat)
+                var harga = $('#sortByHarga').val();
+                var abjad = $('#sortByAbjad').val();
+                var merk = $('#sortByMerk').val();
+
+                if(harga == 'tanpaSortHarga' && kategori == 'allKategori' && merk == 'allMerk'){
+                    tampilData(abjad)
+                }else if(harga == 'tanpaSortHarga' && kategori == '' && merk == 'allMerk'){
+                    tampilData(abjad)
+                }else if (harga != 'tanpaSortHarga' && kategori == 'allKategori' && merk == 'allMerk'){
+                    filterbyharga(harga, abjad)
+                }else if (harga == 'tanpaSortHarga' && kategori != 'allKategori' && merk == 'allMerk'){
+                    filterbykategori(kategori, abjad)
+                }else if (harga == 'tanpaSortHarga' && kategori == 'allKategori' && merk != 'allMerk'){
+                    filterbyMerk(merk, abjad)
+                }else if (harga != 'tanpaSortHarga' && kategori != 'allKategori' && merk == 'allMerk'){
+                    filterbykategoriharga(kategori, harga, abjad)
+                }else if (harga != 'tanpaSortHarga' && kategori == 'allKategori' && merk != 'allMerk'){
+                    filterbymerkharga(merk, harga, abjad)
+                }else if (harga == 'tanpaSortHarga' && kategori != 'allKategori' && merk != 'allMerk'){
+                    filterbykategorimerk(kategori, merk, abjad)
+                }else if (harga != 'tanpaSortHarga' && kategori != 'allKategori' && merk != 'allMerk'){
+                    filterbykategorihargamerk(kategori, merk, harga, abjad)
                 }
             })
 
@@ -422,7 +681,7 @@
                         $('#detailHarga').html(data.harga)
                         $('#detailDeskripsi').html(data.deskripsi)
                         $('#detailNama').html(data.nama_barang)
-
+                        $('#detailMerk').html(data.nama_merk)
                         var tampilGambar = '<img class="w-100 h-100" src="<?php echo base_url() ?>assets/images/'+data.gambar+'" alt="Image">'
                         $('#detailImage').html(tampilGambar)
                         $('#modal-detail').modal('show');

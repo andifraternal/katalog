@@ -42,11 +42,11 @@ echo $now;
                   <tr>
                     <th>No</th>
                     <th>Kategori</th>
-                    <th>Kode Barang</th>
+                    <th>Merk</th>
                     <th>Nama Barang</th>
                     <th>Deskripsi</th>
                     <th>Gambar</th>
-                    <th>Ukuran</th>
+                    <!-- <th>Ukuran</th> -->
                     <th>Bahan</th>
                     <th>Harga</th>
                     <th>Dibuat</th>
@@ -107,11 +107,26 @@ echo $now;
                     </div>
 
                     <div class="form-group row">
+                      <label for="inputEmail3" class="col-sm-2 col-form-label">Merk Barang</label>
+                      <div class="col-sm-10">
+                        <select class="form-control select2 " id="merk" name="merk" style="width: 100%;">
+                        <option value='0'>----Pilih Merk----</option>
+                        <?php 
+                            foreach ($merk as $datamerk) {
+                              # code...
+                              echo '<option value='.$datamerk->id_merk.'>'.$datamerk->nama_merk.'</option>';
+                            }
+                        ?>
+                        </select>
+                      </div>
+                    </div>
+
+                    <!-- <div class="form-group row">
                       <label for="inputPassword3" class="col-sm-2 col-form-label">Kode barang</label>
                       <div class="col-sm-10">
                         <input type="text" class="form-control" id="kode_barang" name="kode_barang" placeholder="Kode Barang di Sistem">
                       </div>
-                    </div>
+                    </div> -->
 
                     <div class="form-group row">
                       <label for="inputPassword3" class="col-sm-2 col-form-label">Nama Barang</label>
@@ -135,12 +150,12 @@ echo $now;
                       </div>
                     </div>
                     
-                    <div class="form-group row">
+                    <!-- <div class="form-group row">
                       <label for="inputPassword3" class="col-sm-2 col-form-label">Ukuran</label>
                       <div class="col-sm-10">
                         <input type="text" class="form-control" id="ukuran" name="ukuran" placeholder="Ukuran">
                       </div>
-                    </div>
+                    </div> -->
 
                     <div class="form-group row">
                       <label for="inputPassword3" class="col-sm-2 col-form-label">Bahan</label>
@@ -196,13 +211,22 @@ echo $now;
                       </div>
                     </div>
 
+                    <input type="hidden" class="form-control" id="id_barang_update" name="id_barang_update" placeholder="" readonly>
+
                     <div class="form-group row">
-                      <label for="inputPassword3" class="col-sm-2 col-form-label">Kode barang</label>
+                      <label for="inputEmail3" class="col-sm-2 col-form-label">Merk</label>
                       <div class="col-sm-10">
-                        <input type="hidden" class="form-control" id="id_barang_update" name="id_barang_update" placeholder="" readonly>
-                        <input type="text" class="form-control" id="kode_barang_update" name="kode_barang_update" placeholder="Kode Barang di Sistem">
+                        <div id="merk_id"></div>
                       </div>
                     </div>
+
+                    <!-- <div class="form-group row">
+                      <label for="inputPassword3" class="col-sm-2 col-form-label">Kode barang</label>
+                      <div class="col-sm-10">
+                        
+                        <input type="text" class="form-control" id="kode_barang_update" name="kode_barang_update" placeholder="Kode Barang di Sistem">
+                      </div>
+                    </div> -->
 
                     <div class="form-group row">
                       <label for="inputPassword3" class="col-sm-2 col-form-label">Nama Barang</label>
@@ -228,12 +252,12 @@ echo $now;
                       </div>
                     </div>
                     
-                    <div class="form-group row">
+                    <!-- <div class="form-group row">
                       <label for="inputPassword3" class="col-sm-2 col-form-label">Ukuran</label>
                       <div class="col-sm-10">
                         <input type="text" class="form-control" id="ukuran_update" name="ukuran_update" placeholder="Ukuran">
                       </div>
-                    </div>
+                    </div> -->
 
                     <div class="form-group row">
                       <label for="inputPassword3" class="col-sm-2 col-form-label">Bahan</label>
@@ -348,12 +372,12 @@ echo $now;
               "targets": [ 9 ], 
               "orderable": true, 
           },
+          // { 
+          //     "targets": [ 10 ], 
+          //     "orderable": true, 
+          // },
           { 
               "targets": [ 10 ], 
-              "orderable": true, 
-          },
-          { 
-              "targets": [ 11 ], 
               "orderable": false, 
           },
           ],
@@ -438,6 +462,15 @@ echo $now;
                 combo += '</select>'
                 $('#kategori_id').html(combo);
 
+
+                var aaa = ''
+                aaa += '<select class="form-control" name="merk_update" id="merk_update">'
+                for(i=0; i<data.merk.length; i++){
+                  aaa += '<option value="'+data.merk[i].id_merk+'" '+(data.merk[i].id_merk == data.barang.id_merk ? 'selected' : '')+'>'+data.merk[i].nama_merk+'</option>'
+                }
+                aaa += '</select>'
+                $('#merk_id').html(aaa);
+
                 var  gambar = ''
                 gambar += '<img src="'+base_url+'/katalog/assets/images/'+data.barang.gambar+'" style="height:150px;width:150px;"/>'
                 $('#gambar_tampil').html(gambar);
@@ -450,7 +483,7 @@ echo $now;
 
                 $('[name="gambar_lama"]').val(data.barang.gambar);
 
-                $('[name="ukuran_update"]').val(data.barang.ukuran);
+                // $('[name="ukuran_update"]').val(data.barang.ukuran);
                 $('[name="bahan_update"]').val(data.barang.bahan);
                 $('[name="harga_update"]').val(data.barang.harga);
                 $('#modal-update').modal('show');
